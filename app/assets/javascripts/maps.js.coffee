@@ -3,7 +3,8 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 #= require leaflet
-#= require cartodb.nojquery
+#= require cartodb
 
 
-
+window.onload = ->
+  cartodb.createVis "map", "http://examples-beta.cartodb.com/api/v1/viz/219/viz.json"
