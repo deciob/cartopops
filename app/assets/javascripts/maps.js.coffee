@@ -7,10 +7,16 @@
 #= require backbone
 #= require leaflet
 #= require cartodb
+#= require ./config
 #= require ./router
 
 
 window.onload = ->
-  mainRoute = new Router()
+  opts = 
+    test: no
+    config: config
+    dispatcher: _.clone(Backbone.Events)
+
+  mainRoute = new Router(opts)
   Backbone.history.start()
   
