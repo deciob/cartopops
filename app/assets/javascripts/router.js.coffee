@@ -45,9 +45,10 @@ class @Router extends Backbone.Router
   country: (country_code, year) ->
     if country_code != @old_country_code
       country_code = country_code or @config.default_country_code
-      @dispatcher.trigger "Router:country_code", country_code
       @old_country_code = country_code
+      @dispatcher.trigger "Router:country_code", country_code
     if year and year != @old_year
       year = year or @config.default_year
-      @dispatcher.trigger "Router:year", year
       @old_year = year
+      @dispatcher.trigger "Router:year", year
+      

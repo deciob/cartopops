@@ -1,3 +1,7 @@
+#= require sinon
+#= require chai-changes
+#= require chai-backbone
+
 #= require spec_helper
 #= require lodash
 #= require backbone
@@ -72,5 +76,22 @@ describe "Router#routes", ->
       expect(year).to.equal(2000)
       done()
     mainRoute.country "CN", 2000
+
+  it "should correctly route", ->
+    "country/CN/1955/".should
+      .route.to mainRoute, "country", arguments: ["CN", "1955"]
+    "countries/CN/1955/".should.not.route.to mainRoute, "country"
+    "country/CN/".should.route.to mainRoute, "country"
+    "country/world/".should.route.to mainRoute, "country"
+    #"country/bonbon/".should.not.route.to mainRoute, "country"
+
+  #it "should update old year", ->
+  #  #mainRoute.dispatcher = _.clone(Backbone.Events)
+  #  expect(-> mainRoute.old_country_code).to.change.when -> 
+  #    mainRoute.country "BR", 2005
+
+  
+
+
 
       

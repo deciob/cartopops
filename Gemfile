@@ -39,4 +39,5 @@ gem 'jquery-rails'
 
 group :test, :development do
   gem 'konacha'
+  gem 'konacha-chai-matchers'
 end
