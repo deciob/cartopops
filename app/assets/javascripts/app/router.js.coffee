@@ -7,23 +7,25 @@ class @Router extends Backbone.Router
     "": "country"
     "country(/:country_code)(/:year)/": "country"
 
-  initialize: (opts) ->
-    @config = opts.config
+  initialize: (@config) ->
     @fields_str = @config.cartodb_sql_fields
-    @dispatcher = opts.dispatcher
+    @dispatcher = @config.dispatcher
     @cities = new Cities()
     @old_country_code = @config.default_country_code
     @old_year = @config.default_year
-    if not opts.test
-      deferred = @get_deferred()
+    if not @config.test
+      sql = @get_carto()
+      deferred = @get_deferred(sql)
       @initialize_data(deferred)
     
+  get_carto: ->
+    new cartodb.SQL(user: @config.cartodb_user)
+
   # Gets a deferred from cartodb. 
   # When successful the deferred should return an object
   # with the following structure:
   # {time: 0.06, total_rows: 633, rows: Array[633]}
-  get_deferred: ->
-    sql = new cartodb.SQL(user: @config.cartodb_user)
+  get_deferred: (sql) ->
     sql.execute("select #{@fields_str} from urban_agglomerations")
 
   # For each data.rows (cities) it calls @add_city.

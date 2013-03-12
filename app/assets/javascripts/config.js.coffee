@@ -1,4 +1,3 @@
-#= require backbone
 
 @config = 
   cartodb_user: "deciob"
@@ -8,4 +7,7 @@
     "region_wb,subregion,urban_aggl"
   default_year: 1950
   default_country_code: "world"
+  test: no
+  dispatcher: _.clone(Backbone.Events)
+  sql: new cartodb.SQL(user: "deciob")
   

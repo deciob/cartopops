@@ -10,8 +10,26 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
 //= require jquery_ujs
+
+//= require laconic
+//= require lodash
+//= require backbone
+//= require leaflet
+//= require cartodb
+
+//= require ./config
+
+//= require ./app/models/city
+//= require ./app/models/cities
+
+//= require_directory ./app/views
+//= require_directory ./app/templates
+
+//= require ./app/router
+
 //= require maps
-//// require_tree .
+
 
