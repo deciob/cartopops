@@ -9,5 +9,4 @@
   default_country_code: "world"
   test: no
   dispatcher: _.clone(Backbone.Events)
-  sql: new cartodb.SQL(user: "deciob")
   

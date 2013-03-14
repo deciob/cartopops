@@ -14,23 +14,29 @@ class @Router extends Backbone.Router
     @old_country_code = @config.default_country_code
     @old_year = @config.default_year
     if not @config.test
-      sql = @get_carto()
-      deferred = @get_deferred(sql)
+      deferred = @get_deferred(@get_sql())
       @initialize_data(deferred)
     
   get_carto: ->
     new cartodb.SQL(user: @config.cartodb_user)
 
-  # Gets a deferred from cartodb. 
+  get_sql: ->
+    "select #{@fields_str} from urban_agglomerations limit 2"
+
+  # Gets a deferred from the cartodb sql API. 
   # When successful the deferred should return an object
   # with the following structure:
-  # {time: 0.06, total_rows: 633, rows: Array[633]}
+  # {time: 0.06, total_rows: xx, rows: Array[xx]}
   get_deferred: (sql) ->
-    sql.execute("select #{@fields_str} from urban_agglomerations")
+    url = "http://" + @config.cartodb_user + 
+      ".cartodb.com/api/v2/sql/?q=" + sql
+    deferred = $.ajax
+      dataType: "json"
+      url: url
 
   # For each data.rows (cities) it calls @add_city.
   initialize_data: (deferred) ->
-    deferred.done( (data) =>
+    deferred.complete( (data) =>
       _.each data.rows, @add_city, @
       @dispatcher.trigger "Router:cities_initialized", @cities
     ).error (errors) ->

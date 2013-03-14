@@ -18,7 +18,7 @@
 //= require lodash
 //= require backbone
 //= require leaflet
-//= require cartodb
+//// require cartodb.uncompressed
 
 //= require ./config
 

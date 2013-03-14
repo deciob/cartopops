@@ -15,46 +15,74 @@
 config = _.extend(@config, @spec_config)
 mainRoute = new Router(config)
 
+#describe "Router#Request#Cities", ->
+#
+#  # Use Sinon to replace jQuery's ajax method with a spy.
+#  #beforeEach ->
+#  #  sinon.spy $, "ajax"
+#  s = no
+#  beforeEach ->
+#    s = sinon.stub($, "ajax")#.yieldsTo "success", config.fake_city_response
+#  
+#
+#
+#  # Restor jQuery's ajax method to its original state
+#  afterEach ->
+#    $.ajax.restore()
+#
+#  it "should make an ajax call", (done) ->
+#    deferred = mainRoute.get_deferred(mainRoute.get_sql())
+#    s.yieldsTo "complete", config.fake_city_response
+#
+#    console.log deferred, mainRoute.get_deferred
+#
+#    #deferred.success( (data) -> 
+#    #  assertEquals(config.fake_city_response, data)
+#    #)
+#    #expect($.ajax.calledOnce).to.be.true;
+#    done(); # let Mocha know we're done async testing
 
 
+# TODO: simulate failure
+# http://www.jonnyreeves.co.uk/2012/unit-testing-async-javascript-with-promises-and-stubs/
 
-describe "Router#requests", ->
+describe "Router#Request#Cities", ->
 
-  it "has requested", (done) ->
+  sinon.stub(mainRoute, 'get_deferred').returns(
+    jQuery.Deferred().resolve(config.fake_city_response) )
+  deferred = mainRoute.get_deferred(mainRoute.get_sql())
 
-    server = sinon.fakeServer.create()
-    #server.respondWith( [
-    #  200, 
-    #  { "Content-Type": "application/json" },
-    #  config.fake_city_response
-    #] )
+  it "Response should have property total_rows, 3", ->
+    deferred.done( (data) =>
+      expect(JSON.parse(data)).to.have.property('total_rows', 3)
+    )
 
-    this.server.respondWith("GET", "http://deciob.cartodb.com/api/v2/sql?q=select%20cartodb_id%2Ccontinent%2Ccountry%2Ciso_a2%2Clatitude%2Clongitude%2Cpop1950%2Cpop1955%2Cpop1960%2Cpop1965%2Cpop1970%2Cpop1975%2Cpop1980%2Cpop1985%2Cpop1990%2Cpop1995%2Cpop2000%2Cpop2005%2Cpop2010%2Cpop2015%2Cpop2020%2Cpop2025%2Cregion_un%2Cregion_wb%2Csubregion%2Curban_aggl%20from%20urban_agglomerations",
-      [200, { "Content-Type": "application/json" },
-      '[{ "id": 12, "comment": "Hey there" }]'])
+  it "Response has time", ->
+    deferred.done( (data) =>
+      expect(JSON.parse(data).time).to.be.a('number')
+    )
 
-    #server.respondWith "GET", 
-    #  "http://deciob.cartodb.com/api/v2/sql?q=select%20cartodb_id%2Ccontinent%2Ccountry%2Ciso_a2%2Clatitude%2Clongitude%2Cpop1950%2Cpop1955%2Cpop1960%2Cpop1965%2Cpop1970%2Cpop1975%2Cpop1980%2Cpop1985%2Cpop1990%2Cpop1995%2Cpop2000%2Cpop2005%2Cpop2010%2Cpop2015%2Cpop2020%2Cpop2025%2Cregion_un%2Cregion_wb%2Csubregion%2Curban_aggl%20from%20urban_agglomerations", 
-    #  [200,
-    #  "Content-Type": "application/json"
-    #  , config.fake_city_response]
-  
-    sql = mainRoute.get_carto()
-    #stub = sinon.stub(sql, "execute")
-    callback = sinon.spy()
-    
-    deferred = sql.execute("select #{config.fields_str} from urban_agglomerations", 
-      callback)
-  
-    server.respond()
-    sinon.assert.called callback
-    done()
+  it "Response has rows", ->
+    deferred.done( (data) =>
+      expect(JSON.parse(data).rows).to.be.a('array')
+    )
+
+  it "Response has the correct fields", ->
+    deferred.done( (data) =>
+      response_fields = _.map(JSON.parse(data).rows[0], (val, key) -> key).join(",")
+      config_fields = config.cartodb_sql_fields
+      expect(response_fields).to.equal(config_fields)
+    )
+
+
 
 
 
 #describe "Router#deferred", ->
-#
-#  deferred = mainRoute.get_deferred()
+#  
+#  carto = mainRoute.get_carto()
+#  stub = sinon.stub(carto, "execute", fake_req)
+#  deferred = mainRoute.get_deferred(carto)
 #  d = no
 #  
 #  it "has data", (done) ->
