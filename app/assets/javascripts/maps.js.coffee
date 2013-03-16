@@ -4,7 +4,8 @@
 
 
 window.onload = ->
-
-  mainRoute = new Router(config)
+  config = @m.config
+  cities = new Cities config
+  mainRoute = new Router config
   Backbone.history.start()
   

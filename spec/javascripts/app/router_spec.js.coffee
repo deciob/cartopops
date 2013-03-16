@@ -6,110 +6,51 @@
 #= require ../spec_helper
 #= require lodash
 #= require backbone
+
+## require ../../../app/assets/javascripts/namespace
+## require ../../../app/assets/javascripts/libs/data_strategy
 #= require ../../../app/assets/javascripts/app/router
-#= require cartodb
+
 #= require config
 #= require ../spec_config
 
 
-config = _.extend(@config, @spec_config)
+config = _.extend(@m.config, @m.spec_config)
 mainRoute = new Router(config)
-
-#describe "Router#Request#Cities", ->
-#
-#  # Use Sinon to replace jQuery's ajax method with a spy.
-#  #beforeEach ->
-#  #  sinon.spy $, "ajax"
-#  s = no
-#  beforeEach ->
-#    s = sinon.stub($, "ajax")#.yieldsTo "success", config.fake_city_response
-#  
-#
-#
-#  # Restor jQuery's ajax method to its original state
-#  afterEach ->
-#    $.ajax.restore()
-#
-#  it "should make an ajax call", (done) ->
-#    deferred = mainRoute.get_deferred(mainRoute.get_sql())
-#    s.yieldsTo "complete", config.fake_city_response
-#
-#    console.log deferred, mainRoute.get_deferred
-#
-#    #deferred.success( (data) -> 
-#    #  assertEquals(config.fake_city_response, data)
-#    #)
-#    #expect($.ajax.calledOnce).to.be.true;
-#    done(); # let Mocha know we're done async testing
-
 
 # TODO: simulate failure
 # http://www.jonnyreeves.co.uk/2012/unit-testing-async-javascript-with-promises-and-stubs/
 
 describe "Router#Request#Cities", ->
 
-  sinon.stub(mainRoute, 'get_deferred').returns(
-    jQuery.Deferred().resolve(config.fake_city_response) )
-  deferred = mainRoute.get_deferred(mainRoute.get_sql())
+  # Alternative approach:
+  #sinon.stub(mainRoute, 'get_deferred').returns(
+  #  jQuery.Deferred().resolve(config.fake_city_response) )
+  #deferred = mainRoute.get_deferred(mainRoute.get_sql())
+
+  #deferred = mainRoute.getDeferred( mainRoute.get_sql() )
 
   it "Response should have property total_rows, 3", ->
-    deferred.done( (data) =>
-      expect(JSON.parse(data)).to.have.property('total_rows', 3)
+    mainRoute.deferred.done( (data) =>
+      expect(data).to.have.property('total_rows', 3)
     )
 
   it "Response has time", ->
-    deferred.done( (data) =>
-      expect(JSON.parse(data).time).to.be.a('number')
+    mainRoute.deferred.done( (data) =>
+      expect(data.time).to.be.a('number')
     )
 
   it "Response has rows", ->
-    deferred.done( (data) =>
-      expect(JSON.parse(data).rows).to.be.a('array')
+    mainRoute.deferred.done( (data) =>
+      expect(data.rows).to.be.a('array')
     )
 
   it "Response has the correct fields", ->
-    deferred.done( (data) =>
-      response_fields = _.map(JSON.parse(data).rows[0], (val, key) -> key).join(",")
+    mainRoute.deferred.done( (data) =>
+      response_fields = _.map(data.rows[0], (val, key) -> key).join(",")
       config_fields = config.cartodb_sql_fields
       expect(response_fields).to.equal(config_fields)
     )
-
-
-
-
-
-#describe "Router#deferred", ->
-#  
-#  carto = mainRoute.get_carto()
-#  stub = sinon.stub(carto, "execute", fake_req)
-#  deferred = mainRoute.get_deferred(carto)
-#  d = no
-#  
-#  it "has data", (done) ->
-#    deferred.done( (data) =>
-#      d = data
-#      done()
-#    )
-#
-#  describe "Router#deferred#done", ->
-#
-#    it "has time", (done) ->
-#      expect(d.time).to.be.a('number')
-#      done()
-#    
-#    it "has total_rows", (done) ->
-#      expect(d.total_rows).to.be.a('number')
-#      done()
-#    
-#    it "has rows", (done) ->
-#      expect(d.rows).to.be.a('array')
-#      done()
-#
-#    it "has the correct fields", (done) ->
-#      response_fields = _.map(d.rows[0], (val, key) -> key).join(",")
-#      config_fields = config.cartodb_sql_fields
-#      expect(response_fields).to.equal(config_fields)
-#      done()
 
 
 # mainRoute.dispatcher gets overrided every time so the different tests

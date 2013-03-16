@@ -9,7 +9,7 @@
 #mocha.ignoreLeaks()
 
 # set slow test timeout in ms
-mocha.timeout 5000
+mocha.timeout 2000
 
 # Show stack trace on failing assertion.
 chai.Assertion.includeStack = true

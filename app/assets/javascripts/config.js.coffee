@@ -1,5 +1,7 @@
+#= require ./namespace
+#= require ./app_data_strategy
 
-@config = 
+@m.config = 
   cartodb_user: "deciob"
   cartodb_sql_fields: "cartodb_id,continent,country,iso_a2,latitude,longitude," +
     "pop1950,pop1955,pop1960,pop1965,pop1970,pop1975,pop1980,pop1985,pop1990," +
@@ -7,6 +9,6 @@
     "region_wb,subregion,urban_aggl"
   default_year: 1950
   default_country_code: "world"
-  test: no
   dispatcher: _.clone(Backbone.Events)
+  dataStrategy: new @m.appDataStrategy()
   

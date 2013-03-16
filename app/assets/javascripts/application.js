@@ -18,7 +18,11 @@
 //= require lodash
 //= require backbone
 //= require leaflet
-//// require cartodb.uncompressed
+
+//= require namespace
+
+//= require ./libs/data_strategy
+//= require ./app_data_strategy
 
 //= require ./config
 

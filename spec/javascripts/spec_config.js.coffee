@@ -1,12 +1,8 @@
-#= require backbone
-#= require cartodb
-#= require sinon
-#= require chai-factories
+## require backbone
+## require ../../app/assets/javascripts/namespace
+## require ../../app/assets/javascripts/libs/data_strategy
+#= require ./spec_data_strategy
 
-#sql = chai.factory('sql', { execute:  })
-#sql = new cartodb.SQL(user: "deciob")
-#xhr = sinon.useFakeXMLHttpRequest()
-#stub = sinon.stub(sql, "execute")
 
 fake_city_response = {
   time: 0.009,
@@ -99,8 +95,7 @@ fake_city_response = {
   ]
 }
 
-@spec_config = 
-  test: yes
+
+@m.spec_config = 
   fake_city_response: JSON.stringify fake_city_response
-  #fake_query: "http://deciob.cartodb.com/api/v2/sql?q=select cartodb_id,continent,country,iso_a2,latitude,longitude,pop1950,pop1955,pop1960,pop1965,pop1970,pop1975,pop1980,pop1985,pop1990,pop1995,pop2000,pop2005,pop2010,pop2015,pop2020,pop2025,region_un,region_wb,subregion,urban_aggl from urban_agglomerations limit 1"
-  #sql: stub
+  dataStrategy: new @m.specDataStrategy fake_city_response
