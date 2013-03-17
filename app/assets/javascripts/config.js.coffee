@@ -1,5 +1,4 @@
-#= require ./namespace
-#= require ./app_data_strategy
+#= require app_data_strategy
 
 @m.config = 
   cartodb_user: "deciob"

@@ -1,2 +1,2 @@
 
-class @City extends Backbone.Model
+@m.City = class City extends Backbone.Model

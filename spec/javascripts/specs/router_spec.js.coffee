@@ -1,18 +1,7 @@
-#= require sinon
-#= require chai-changes
-#= require chai-backbone
-#= require chai-factories
-
-#= require ../spec_helper
-#= require lodash
-#= require backbone
-
-## require ../../../app/assets/javascripts/namespace
-## require ../../../app/assets/javascripts/libs/data_strategy
-#= require ../../../app/assets/javascripts/app/router
-
+#= require spec_helper
+#= require spec_config
 #= require config
-#= require ../spec_config
+#= require app/router
 
 
 config = _.extend(@m.config, @m.spec_config)

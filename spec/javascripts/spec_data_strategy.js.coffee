@@ -1,19 +1,18 @@
-#= require jquery
-
-#= require ../../app/assets/javascripts/namespace
-#= require ../../app/assets/javascripts/libs/data_strategy
+#= require libs/data_strategy
 
 
 @m.specDataStrategy = class specDataStrategy extends @m.dataStrategy
 
-  constructor: (@response) ->
-  #  super @dispatcher
+  # Passing a "fake response" as an argument to the constructor.
+  # Note: this is different from app_data_strategy.
+  constructor: (response) ->
+    @response = JSON.parse(response)
 
-  # The deferred is resolved immediately.
   getDeferred: ->
-    jQuery.Deferred()#.resolve(@response)
+    jQuery.Deferred()
 
-  # Do nothing, the deferred is already resolved.
+  # Resolves the deferred immediately and fires the global event.
+  # It is all a (fast) fake!
   onDeferredDone: (deferred, dispatcher) ->
     deferred.resolve(@response)
     dispatcher.trigger "dataStrategy#onDeferredDone", @response.rows

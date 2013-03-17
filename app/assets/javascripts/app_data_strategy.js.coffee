@@ -1,5 +1,4 @@
-#= require ./namespace
-#= require ./libs/data_strategy
+#= require libs/data_strategy
 
 @m.appDataStrategy = class appDataStrategy extends @m.dataStrategy
 

@@ -1,26 +1,16 @@
-#= require sinon
-#= require sinon-chai
-#= require chai-changes
-#= require chai-backbone
-#= require chai-factories
-
-#= require ../../spec_helper
-#= require lodash
-#= require backbone
-
-## require ../../../../app/assets/javascripts/namespace
-## require ../../../../app/assets/javascripts/libs/data_strategy
-#= require ../../../../app/assets/javascripts/app/router
-
+#= require spec_helper
+#= require spec_config
 #= require config
-#= require ../../spec_config
+#= require app/router
+#= require app/models/cities
+
 
 # chai-backbone
 #model.should.trigger("change", with: [model]).when ->
 #model.set attribute: "value"
 
 config = _.extend(@m.config, @m.spec_config)
-cities = new Cities config
+cities = new @m.Cities config
 
 describe "Cities#addCities", ->
   
@@ -33,6 +23,7 @@ describe "Cities#addCities", ->
   after ->
     cities.addCities.restore()
 
+  # As it is, this one looks a bit useless.
   it "addCities should only be called once after router initialization", ->
     cities.addCities.should.have.been.calledOnce
 

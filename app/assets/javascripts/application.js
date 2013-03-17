@@ -20,20 +20,6 @@
 //= require leaflet
 
 //= require namespace
-
-//= require ./libs/data_strategy
-//= require ./app_data_strategy
-
-//= require ./config
-
-//= require ./app/models/city
-//= require ./app/models/cities
-
-//= require_directory ./app/views
-//= require_directory ./app/templates
-
-//= require ./app/router
-
 //= require maps
 
 

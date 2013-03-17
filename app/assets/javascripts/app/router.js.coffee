@@ -1,7 +1,5 @@
-#= require ./models/city
-#= require ./models/cities
 
-class @Router extends Backbone.Router
+@m.Router = class @Router extends Backbone.Router
 
   routes:
     "": "country"
@@ -10,8 +8,8 @@ class @Router extends Backbone.Router
   initialize: (@config) ->
     @dataStrategy = @config.dataStrategy
     @fields_str = @config.cartodb_sql_fields
-    @old_country_code = @config.default_country_code
-    @old_year = @config.default_year
+    @prev_country_code = @config.default_country_code
+    @prev_year = @config.default_year
     @deferred = @getDeferred @get_sql(), @config.cartodb_user
     @dispatcher = @config.dispatcher
     @onDeferredDone @deferred, @dispatcher
@@ -26,20 +24,22 @@ class @Router extends Backbone.Router
   getDeferred: (sql, user, service) ->
     @dataStrategy.getDeferred sql, user, service
 
-  # For each data.rows (cities) it calls @add_city.
+  # When the deferred is resolved, the 
+  # "dataStrategy#onDeferredDone" event is triggered, passing data.rows
+  # See app_data_strategy.js.coffee
   onDeferredDone: (deferred, dispatcher) ->
     @dataStrategy.onDeferredDone deferred, dispatcher
 
   # Called on navigation.
-  # If country_code or year change the appropriate global event is fired.
-  # If country or year is undefined use default values.
+  # If country_code or year changes, the appropriate global event is fired.
+  # If country or year are undefined, use default values.
   country: (country_code, year) ->
-    if country_code != @old_country_code
+    if country_code != @prev_country_code
       country_code = country_code or @config.default_country_code
-      @old_country_code = country_code
+      @prev_country_code = country_code
       @dispatcher.trigger "Router:country_code", country_code
-    if year and year != @old_year
+    if year and year != @prev_year
       year = year or @config.default_year
-      @old_year = year
+      @prev_year = year
       @dispatcher.trigger "Router:year", year
       

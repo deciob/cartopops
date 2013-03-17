@@ -1,3 +1,20 @@
+#= require jquery
+#= require jquery_ujs
+
+#= require laconic
+#= require lodash
+#= require backbone
+#= require leaflet
+
+#= require sinon
+#= require sinon-chai
+#= require chai-changes
+#= require chai-backbone
+#= require chai-factories
+
+#= require namespace
+
+
 # set the Mocha test interface
 # see http://visionmedia.github.com/mocha/#interfaces
 #mocha.ui "bdd"
