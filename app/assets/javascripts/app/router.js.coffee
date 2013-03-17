@@ -3,7 +3,9 @@
 
   routes:
     "": "country"
-    "country(/:country_code)(/:year)/": "country"
+    "country(/:country_code)/": "country"
+    #"year(/:year)/": "country"  # As is does not work: args mismatch!
+    "country(/:country_code)/year(/:year)/": "country"
 
   initialize: (@config) ->
     @dataStrategy = @config.dataStrategy
