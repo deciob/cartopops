@@ -1,8 +1,8 @@
 
 
-#@m.Map = class MapTitle extends Backbone.View
+#@m.Map = class Map extends Backbone.View
 #
-#    el: "#map_title"
+#    el: "#map"
 #
 #    initialize: (options) ->
 #      @model = options.model

@@ -4,6 +4,7 @@
 
 #= require config
 #= require app/models/cities
+#= require app/views/map
 #= require app/router
 
 window.onload = ->
