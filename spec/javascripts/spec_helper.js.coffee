@@ -3,7 +3,7 @@
 
 #= require laconic
 #= require lodash
-#= require backbone
+#= require backbone-1.0.0
 #= require leaflet
 
 #= require sinon
