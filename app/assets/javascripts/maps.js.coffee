@@ -11,5 +11,7 @@ window.onload = ->
   config = @m.config
   cities = new @m.Cities config
   mainRoute = new @m.Router config
+  config.collection = cities
+  mapView = new @m.MapView config
   Backbone.history.start()
   

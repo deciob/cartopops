@@ -17,7 +17,8 @@ describe "Cities#addCities", ->
   before ->
     # Note: setting up the spy before calling the Router.
     sinon.spy cities, "addCities"
-    config.dispatcher.on "dataStrategy#onDeferredDone", cities.addCities
+    cities.listenTo config.dispatcher, "dataStrategy#onDeferredDone", 
+      cities.addCities
     mainRoute = new Router config
   
   after ->
