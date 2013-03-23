@@ -7,6 +7,7 @@
     initialize: (@config) ->
       @collection = @config.model
       @dispatcher = @config.dispatcher
+      @listenTo @dispatcher, "dataStrategy#onDeferredDone", @initOverlay
       @render()
       
     initMap: ->
@@ -18,8 +19,18 @@
         { maxZoom: 18 }
       )
 
-    # We are not rendering any View here, but simply relying on Leaflet.
+    addCity: (c) ->
+      circle = L.circle([c.latitude, c.longitude], 5,
+        color: "red"
+        fillColor: "#f03"
+        fillOpacity: 0.5
+      ).addTo(@map)
+
+    initOverlay: (cities) ->
+      _.each cities, @addCity, @
+
+    # We are not rendering any View here, but simply delegating to Leaflet.
     render: ->
-      map = @initMap()
+      @map = @initMap()
       base_layer = @initTileLayer()
-      base_layer.addTo map
+      base_layer.addTo @map

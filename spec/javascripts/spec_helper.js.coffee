@@ -12,6 +12,8 @@
 #= require chai-backbone
 #= require chai-factories
 
+#= require chai-jquery
+
 #= require namespace
 
 
@@ -30,4 +32,7 @@ mocha.timeout 2000
 
 # Show stack trace on failing assertion.
 chai.Assertion.includeStack = true
+
+#beforeEach ->
+#  window.page = $("#konacha")
 

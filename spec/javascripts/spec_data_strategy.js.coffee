@@ -14,5 +14,5 @@
   # Resolves the deferred immediately and fires the global event.
   # It is all a (fast) fake!
   onDeferredDone: (deferred, dispatcher) ->
-    deferred.resolve(@response)
     dispatcher.trigger "dataStrategy#onDeferredDone", @response.rows
+    deferred.resolve(@response)

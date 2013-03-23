@@ -16,8 +16,9 @@
     @dispatcher = @config.dispatcher
     @onDeferredDone @deferred, @dispatcher
 
-  get_sql: ->
-    "select #{@fields_str} from urban_agglomerations limit 2"
+  get_sql: (limit) ->
+    sql = "select #{@fields_str} from urban_agglomerations"
+    if limit then return sql + " limit #{limit}" else return sql
 
   # Gets a deferred from the cartodb sql API. 
   # When successful the deferred should return an object
